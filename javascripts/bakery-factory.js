@@ -7,9 +7,15 @@ let inventory = [];
 let bakery = {};
  
 let fillInventory = (data) => {
-	data.forEach(function(element){
-		inventory.push(element);
+	let keys = Object.keys(data);
+
+	keys.forEach((item) => {
+		console.log( "keys", keys );
+		data[item].firebaseID = item;
+		inventory.push(data[item]);
 	});
+
+	console.log( "inventory", inventory );
 };
 
 
@@ -24,7 +30,7 @@ bakery.getinventory = () => {
 bakery.loadInventory = () => {
 	return new Promise (function (resolve, reject){
 		let inventoryLoader = new XMLHttpRequest();
-		inventoryLoader.open("GET", "https://tester-e4611.firebaseio.com/ccakes.json");
+		inventoryLoader.open('GET', 'https://tester-e4611.firebaseio.com/items.json?orderBy="typeId"&equalTo="1"');
 		inventoryLoader.send();
 
 		inventoryLoader.addEventListener("load", (event) => {
